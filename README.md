@@ -19,7 +19,49 @@ This ScrollView provides:
 - Snapping to the nearest item, with options to configure the speed of the snapping behaviour, with `Component Scroller` on `GameObject ScrollView`
 - `UpdatePosition(float position)` to play an animation or tween with `t = [0, 1]` where t is the normalized position of `GameObject cell` within the visible ViewPort of the Scroll View. For example, `t = 0.5` is the selected item.
 
-## My Notes - Quick Code Snippet
+## My Notes - Quick Code Snippets
+
+```cs
+namespace FancyScrollView.Example02
+{
+    class Example02 : MonoBehaviour
+    {
+        ...
+
+        void Start()
+        {
+            prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
+            nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
+            scrollView.OnSelectionChanged(OnSelectionChanged);
+
+            var items = Enumerable.Range(0, 20)
+                .Select(i => new ItemData($"Cell {i}"))
+                .ToArray();
+
+            scrollView.UpdateData(items);
+            scrollView.SelectCell(0);
+        }
+
+        // My Notes - This works as expected
+        // - Updates immediately
+        // - Recycles as many cells as possible
+        // - Creates new cells immediately
+        // - Moves the current position index to the requested cell index immediately, and select it
+        [Button]
+        void TryThis()
+        {
+            var items = Enumerable.Range(0, 40)
+                .Select(i => new ItemData($"Cell {i}"))
+                .ToArray();
+
+            scrollView.UpdateData(items);
+            scrollView.SelectCell(15);
+        }
+
+        ...
+    }
+}
+```
 
 ```cs
 namespace FancyScrollView.Example02
@@ -28,7 +70,7 @@ namespace FancyScrollView.Example02
     {
         ...
         
-        // Called when 
+        // MyNotes - Called when 
         // - initialized at start when first instantiated
         // - cell loops from index0 to indexN for object pooling and looping to keep 7 cell GameObjects to show 19 items
         public override void UpdateContent(ItemData itemData)
@@ -44,7 +86,7 @@ namespace FancyScrollView.Example02
         }
 
 
-        // Called for all existing Cell GameObjects when 
+        // MyNotes - Called for all existing Cell GameObjects when 
         // - moving each frame, where position = [0, 1], where t = position of this item within the scroll view ViewPort
         // - t = 1.0 means it's the rightest item (last item)
         // - t = 0.5 means it's the item at the middle (the selected item)
