@@ -11,6 +11,54 @@
 
 <img src="https://user-images.githubusercontent.com/8326814/69004520-d2b36b80-0957-11ea-8277-06bfd3e8f033.gif" width="320"><img src="https://user-images.githubusercontent.com/8326814/70638335-0b571400-1c7c-11ea-8701-a0d1ae0cb7e3.gif" width="320"><img src="https://user-images.githubusercontent.com/8326814/59548448-a3549900-8f8a-11e9-9a27-b04f1410a7b5.gif" width="320"><img src="https://user-images.githubusercontent.com/8326814/59548462-b8c9c300-8f8a-11e9-8985-5f1c2e610309.gif" width="320"><img src="https://user-images.githubusercontent.com/8326814/59550410-7f528100-8fa5-11e9-8f1b-41e59b645571.gif" width="320"><img src="https://user-images.githubusercontent.com/8326814/59550411-7f528100-8fa5-11e9-8bfb-bd42da47f7a0.gif" width="320">
 
+## My Notes - Quick Code Snippet
+
+```cs
+namespace FancyScrollView.Example02
+{
+    class Cell : FancyCell<ItemData, Context>
+    {
+        ...
+        
+        // Called when 
+        // - initialized at start when first instantiated
+        // - cell loops from index0 to indexN for object pooling and looping to keep 7 cell GameObjects to show 19 items
+        public override void UpdateContent(ItemData itemData)
+        {
+            Debug.Log($"{this.gameObject.name} -> Cell.UpdateContent(): {itemData.Message}");
+
+            message.text = itemData.Message;
+
+            var selected = Context.SelectedIndex == Index;
+            image.color = selected
+                ? new Color32(0, 255, 255, 100)
+                : new Color32(255, 255, 255, 77);
+        }
+
+
+        // Called for all existing Cell GameObjects when 
+        // - moving each frame, where position = [0, 1], where t = position of this item within the scroll view ViewPort
+        // - t = 1.0 means it's the rightest item (last item)
+        // - t = 0.5 means it's the item at the middle (the selected item)
+        // - t = 0 means it's the leftest item (first item)
+        public override void UpdatePosition(float position)
+        {
+            Debug.Log($"{this.gameObject.name} -> Cell.UpdatePosition(): {position}");
+            currentPosition = position;
+
+            if (animator.isActiveAndEnabled)
+            {
+                animator.Play(AnimatorHash.Scroll, -1, position);
+            }
+
+            animator.speed = 0;
+        }
+        
+        ...
+    }
+}
+```
+
 ## Requirements
 [![Unity 2019.4+](https://img.shields.io/badge/unity-2019.4+-black.svg?style=flat&logo=unity&cacheSeconds=2592000)](https://unity3d.com/get-unity/download/archive)
 [![.NET 4.x Scripting Runtime](https://img.shields.io/badge/.NET-4.x-blueviolet.svg?style=flat&cacheSeconds=2592000)](https://docs.unity3d.com/2018.3/Documentation/Manual/ScriptingRuntimeUpgrade.html)
