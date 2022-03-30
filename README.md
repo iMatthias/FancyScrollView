@@ -11,6 +11,14 @@
 
 <img src="https://user-images.githubusercontent.com/8326814/69004520-d2b36b80-0957-11ea-8277-06bfd3e8f033.gif" width="320"><img src="https://user-images.githubusercontent.com/8326814/70638335-0b571400-1c7c-11ea-8701-a0d1ae0cb7e3.gif" width="320"><img src="https://user-images.githubusercontent.com/8326814/59548448-a3549900-8f8a-11e9-9a27-b04f1410a7b5.gif" width="320"><img src="https://user-images.githubusercontent.com/8326814/59548462-b8c9c300-8f8a-11e9-8985-5f1c2e610309.gif" width="320"><img src="https://user-images.githubusercontent.com/8326814/59550410-7f528100-8fa5-11e9-8f1b-41e59b645571.gif" width="320"><img src="https://user-images.githubusercontent.com/8326814/59550411-7f528100-8fa5-11e9-8bfb-bd42da47f7a0.gif" width="320">
 
+## My Notes - Summary
+
+This ScrollView provides:
+
+- Object Pooling for the items within the Scroll View. It allows to loop through 19 items only with 7 GameObjects with `UpdateContent(ItemData itemData)`
+- Snapping to the nearest item, with options to configure the speed of the snapping behaviour, with `Component Scroller` on `GameObject ScrollView`
+- `UpdatePosition(float position)` to play an animation or tween with `t = [0, 1]` where t is the normalized position of `GameObject cell` within the visible ViewPort of the Scroll View. For example, `t = 0.5` is the selected item.
+
 ## My Notes - Quick Code Snippet
 
 ```cs
